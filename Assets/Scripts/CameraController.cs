@@ -7,7 +7,7 @@ public class CameraController : MonoBehaviour
     public GameObject player;
 
     // Update is called once per frame
-    void FixedUpdate() {
+    void Update() {
         Vector3 camera = gameObject.transform.position;
         Vector3 ball = player.transform.position;
         camera.x = ball.x;
