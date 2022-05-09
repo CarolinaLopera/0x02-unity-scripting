@@ -7,6 +7,7 @@ public class PlayerController : MonoBehaviour
    public Rigidbody rb;
    public float speed = 500f;
    private int score = 0;
+   public int health = 5;
 
    // Update is called once per frame
    void FixedUpdate()
@@ -29,9 +30,13 @@ public class PlayerController : MonoBehaviour
 
    void OnTriggerEnter(Collider other) {
       if (other.gameObject.tag == "Pickup") {
-         this.score += 1;
+         score += 1;
          Debug.Log($"Score: {score}");
          Destroy(other.gameObject);
+      }
+      if (other.gameObject.tag == "Trap") {
+         health -= 1;
+         Debug.Log($"Health: {health}");
       }
    }
 }
