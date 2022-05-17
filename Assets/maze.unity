@@ -5410,6 +5410,11 @@ MonoBehaviour:
   rb: {fileID: 1316145005}
   speed: 1000
   health: 5
+  scoreText: {fileID: 1073916391}
+  healthText: {fileID: 445056765}
+  winLose: {fileID: 292408454}
+  winLoseI: {fileID: 292408456}
+  winLoseT: {fileID: 1167780610}
 --- !u!1 &1328497499
 GameObject:
   m_ObjectHideFlags: 0

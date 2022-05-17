@@ -1,7 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
+using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
@@ -9,15 +10,28 @@ public class PlayerController : MonoBehaviour
    public float speed = 500f;
    private int score = 0;
    public int health = 5;
+   public Text scoreText;
+   public Text healthText;
+   public GameObject winLose;
+   public Image winLoseI;
+   public Text winLoseT;
 
    // Update is called once per frame
    void Update() {
+      if (Input.GetKey(KeyCode.Escape)) {
+         SceneManager.LoadScene("menu");
+      }
+
       if (health == 0) {
-         Debug.Log("Game Over!");
+         // Debug.Log("Game Over!");
+         winLose.SetActive(true);
+         winLoseI.color = new Color(255, 0, 0);
+         winLoseT.color = new Color(255, 255, 255);
+         winLoseT.text = "Game Over!";
          score = 0;
          health = 5;
-         Scene scene = SceneManager.GetActiveScene();
-         SceneManager.LoadScene(scene.name);
+
+         StartCoroutine(LoadScene(3));
       }
    }
 
@@ -40,14 +54,38 @@ public class PlayerController : MonoBehaviour
    void OnTriggerEnter(Collider other) {
       if (other.gameObject.tag == "Pickup") {
          score += 1;
-         Debug.Log($"Score: {score}");
+         SetScoreText();
+         // Debug.Log($"Score: {score}");
          Destroy(other.gameObject);
       }
       if (other.gameObject.tag == "Trap") {
          health -= 1;
-         Debug.Log($"Health: {health}");
+         SetHealthText();
+         // Debug.Log($"Health: {health}");
       }
-      if (other.gameObject.tag == "Goal")
-         Debug.Log("You win!");
+      if (other.gameObject.tag == "Goal") {
+         winLose.SetActive(true);
+         winLoseI.color = new Color(0, 255, 0);
+         winLoseT.color = new Color(0, 0, 0);
+         winLoseT.text = "You win!";
+
+         StartCoroutine(LoadScene(3));
+         // winLoseI = GameObject.Find("WinLoseBG").GetComponent<Image>();
+         // Debug.Log("You win!");
+      }
+   }
+
+   void SetScoreText() {
+      scoreText.text = $"Score: {score}";
+   }
+
+   void SetHealthText() {
+      healthText.text = $"Health: {health}";
+   }
+
+   IEnumerator LoadScene(float seconds) {
+      yield return new WaitForSeconds(seconds);
+      Scene scene = SceneManager.GetActiveScene();
+      SceneManager.LoadScene(scene.name);
    }
 }
